@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { FaHtml5, FaCss3Alt, FaPhp, FaLaravel, FaReact, FaFigma, FaVideo } from "react-icons/fa";
+import { FaHtml5, FaCss3Alt, FaPhp, FaLaravel, FaReact, FaFigma } from "react-icons/fa";
 import { SiJavascript, SiMysql, SiFlutter, SiCanva, SiPostman } from "react-icons/si";
-import Particles from "./Particles";
-import ScrollReveal from "./ScrollReveal";
+import Particles from "../components/effects/Particles";
+import ScrollReveal from "../components/effects/ScrollReveal";
 
 const TechStack = () => {
     const [isMobile, setIsMobile] = React.useState(false);
@@ -33,9 +33,8 @@ const TechStack = () => {
         { name: "Figma", icon: FaFigma, radius: radii[1], speed: 25, initialAngle: 288, color: "#F24E1E" },
 
         // Ring 3: Radius 300
-        { name: "Video Editing", icon: FaVideo, radius: radii[2], speed: 30, initialAngle: 0, color: "#000000" }, 
-        { name: "Canva", icon: SiCanva, radius: radii[2], speed: 30, initialAngle: 120, color: "#00C4CC" },
-        { name: "Postman", icon: SiPostman, radius: radii[2], speed: 30, initialAngle: 240, color: "#FF6C37" },
+        { name: "Canva", icon: SiCanva, radius: radii[2], speed: 30, initialAngle: 0, color: "#00C4CC" },
+        { name: "Postman", icon: SiPostman, radius: radii[2], speed: 30, initialAngle: 180, color: "#FF6C37" },
     ];
 
     return (
@@ -72,7 +71,7 @@ const TechStack = () => {
                     </ScrollReveal>
                     
                     <div className="grid grid-cols-2 gap-4">
-                        {skills.map((skill, index) => (
+                        {skills.filter(skill => skill.name !== "CSS").map((skill, index) => (
                             <motion.div 
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}

@@ -1,64 +1,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const categories = [
-  "All",
-  "Software Development",
-  "UI/UX",
-  "Graphic Designer",
-  "Video Editor",
-];
-
-const projects = [
-  {
-    id: 1,
-    title: "Portfolio Website",
-    category: "Software Development",
-    description: "Modern portfolio with React & Tailwind",
-    tech: ["React", "Tailwind", "Framer Motion"],
-    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: 2,
-    title: "E-Commerce App",
-    category: "Software Development",
-    description: "Full stack shopping platform",
-    tech: ["Laravel", "MySQL", "Bootstrap"],
-    image: "https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: 3,
-    title: "Task Management Mobile",
-    category: "Software Development",
-    description: "Productivity tool for iOS & Android",
-    tech: ["React Native", "Firebase"],
-    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: 4,
-    title: "Travel App UI Kit",
-    category: "UI/UX",
-    description: "Modern user interface design for travel app",
-    tech: ["Figma", "Prototyping"],
-    image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: 5,
-    title: "Brand Identity Design",
-    category: "Graphic Designer",
-    description: "Complete branding package for startup",
-    tech: ["Illustrator", "Photoshop"],
-    image: "https://images.unsplash.com/photo-1626785774573-4b7993143a26?q=80&w=1000&auto=format&fit=crop",
-  },
-  {
-    id: 6,
-    title: "Product Promo Video",
-    category: "Video Editor",
-    description: "Cinematic product showcase video",
-    tech: ["Premiere Pro", "After Effects"],
-    image: "https://images.unsplash.com/photo-1535016120720-40c6874c3b1c?q=80&w=1000&auto=format&fit=crop",
-  },
-];
+import { Link } from "react-router-dom";
+import { projects, categories } from "../data/projects";
 
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -85,7 +28,8 @@ const Projects = () => {
       return [software, uiux, graphic].filter(Boolean);
     }
 
-    return projects;
+    // Limit to 6 projects for the home page if not filtered
+    return projects.slice(0, 6);
   };
 
   const filteredProjects = getFilteredProjects();
@@ -96,7 +40,7 @@ const Projects = () => {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
+        viewport={{ once: false }}
         className="mb-16"
       >
         <div className="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-0 mb-12">
@@ -139,14 +83,15 @@ const Projects = () => {
 
       <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
         <AnimatePresence mode="popLayout">
-          {filteredProjects.map((project) => (
+          {filteredProjects.map((project, index) => (
             <motion.div
               layout
               key={project.id}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false, margin: "-50px" }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               className="group bg-dark/50 border border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-colors duration-300"
             >
               <div className="relative overflow-hidden h-48">
@@ -191,6 +136,19 @@ const Projects = () => {
           ))}
         </AnimatePresence>
       </motion.div>
+
+      <div className="flex justify-center mt-12 relative z-20">
+            <Link 
+                to="/projects" 
+                className="group px-8 py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 hover:scale-105 transition-all duration-300 flex items-center gap-2"
+            >
+                Lihat Semua
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:translate-x-1 transition-transform">
+                    <path d="M5 12h14" />
+                    <path d="M12 5l7 7-7 7" />
+                </svg>
+            </Link>
+      </div>
     </section>
   );
 };

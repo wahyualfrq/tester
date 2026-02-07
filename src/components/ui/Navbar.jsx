@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import GooeyNav from "./GooeyNav";
+
 const Navbar = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show navbar earlier (50% of Hero) to avoid perceived delay
       setIsVisible(window.scrollY > window.innerHeight * 0.5);
     };
 
     window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Check initial state
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navLinks = [
-    { title: "Home", href: "#home" },
-    { title: "About", href: "#about" },
-    { title: "Projects", href: "#projects" },
+    { label: "Home", href: "#home" },
+    { label: "About", href: "#about" },
+    { label: "Projects", href: "#projects" },
+    { label: "Contact", href: "#contact" },
   ];
 
   return (
@@ -31,38 +33,33 @@ const Navbar = () => {
           opacity: isVisible ? 1 : 0 
         }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="fixed top-0 left-0 right-0 z-50 py-4 bg-dark/80 backdrop-blur-md"
+        className="fixed top-0 left-0 right-0 z-50 py-4"
         style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
-          <div className="text-xl font-bold text-white tracking-tighter">
+          <div className="text-xl font-bold text-white tracking-tighter z-[60]">
             W4YOU<span className="text-primary">.</span>
           </div>
 
-          {/* Desktop Links - Glass Pills */}
-          <div className="hidden md:flex items-center gap-4">
-              {navLinks.map((link, index) => (
-                  <a 
-                      key={index}
-                      href={link.href}
-                      className="px-6 py-2 rounded-full bg-white/5 border border-white/5 text-sm text-gray-300 hover:bg-white/10 hover:text-white hover:border-white/20 transition-all font-body lowercase"
-                  >
-                      {link.title}
-                  </a>
-              ))}
+          {/* Desktop Links - Gooey Nav */}
+          <div className="hidden md:block absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 bg-black/50 backdrop-blur-xl border border-white/10 rounded-full px-2 py-1 shadow-2xl">
+            <GooeyNav
+              items={navLinks}
+              particleCount={15}
+              particleDistances={[90, 10]}
+              particleR={100}
+              initialActiveIndex={0}
+              animationTime={600}
+              timeVariance={300}
+              colors={[1, 2, 3, 1, 2, 3, 1, 4]}
+            />
           </div>
 
-          {/* Right CTA - Desktop */}
-          <a 
-              href="#contact"
-              className="hidden md:flex px-6 py-2.5 rounded-full bg-white text-dark font-bold text-sm hover:scale-105 transition-transform items-center gap-2"
-          >
-              Get in touch
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M1 11L11 1M11 1H1M11 1V11" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-          </a>
+          {/* Spacer for Right Side if needed or just keep empty for balance */}
+          <div className="hidden md:block w-[100px]" />
+
+          {/* Mobile Menu Toggle */}
 
           {/* Mobile Menu Toggle */}
           <button 
@@ -94,7 +91,7 @@ const Navbar = () => {
                         onClick={() => setIsMobileMenuOpen(false)}
                         className="text-2xl text-white font-bold tracking-tight hover:text-primary transition-colors"
                     >
-                        {link.title}
+                        {link.label}
                     </a>
                 ))}
                  <a 

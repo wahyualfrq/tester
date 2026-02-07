@@ -29,32 +29,14 @@ function useElementWidth(ref) {
 const VelocityText = ({
   children,
   baseVelocity = 100,
-  scrollContainerRef,
   className = '',
-  damping = 50,
-  stiffness = 400,
   numCopies = 6,
-  velocityMapping = { input: [0, 1000], output: [0, 5] },
   parallaxClassName,
   scrollerClassName,
   parallaxStyle,
   scrollerStyle
 }) => {
   const baseX = useMotionValue(0);
-  const { scrollY } = useScroll(scrollContainerRef ? { container: scrollContainerRef } : {});
-  const scrollVelocity = useVelocity(scrollY);
-  const smoothVelocity = useSpring(scrollVelocity, {
-    damping: damping ?? 50,
-    stiffness: stiffness ?? 400
-  });
-  
-  const velocityFactor = useTransform(
-    smoothVelocity,
-    [0, 1000], 
-    [0, 5], 
-    { clamp: false }
-  );
-
   const copyRef = useRef(null);
   const copyWidth = useElementWidth(copyRef);
 
@@ -69,19 +51,9 @@ const VelocityText = ({
     return `${wrap(-copyWidth, 0, v)}px`;
   });
 
-  const directionFactor = useRef(1);
-
   useAnimationFrame((t, delta) => {
-    let moveBy = directionFactor.current * baseVelocity * (delta / 1000);
-
-    const vel = smoothVelocity.get();
-    if (vel < 0) {
-      directionFactor.current = -1;
-    } else if (vel > 0) {
-      directionFactor.current = 1;
-    }
-
-    moveBy += directionFactor.current * moveBy * velocityFactor.get();
+    // Constant smooth movement independent of scroll
+    let moveBy = baseVelocity * (delta / 1000);
     baseX.set(baseX.get() + moveBy);
   });
 

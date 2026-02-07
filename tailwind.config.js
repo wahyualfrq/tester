@@ -18,6 +18,8 @@ export default {
       animation: {
         "fade-in": "fadeIn 1s ease-out forwards",
         "slide-up": "slideUp 0.8s ease-out forwards",
+        'star-movement-bottom': 'star-movement-bottom 4s linear infinite',
+        'star-movement-top': 'star-movement-top 4s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -27,6 +29,14 @@ export default {
         slideUp: {
           "0%": { transform: "translateY(20px)", opacity: "0" },
           "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        'star-movement-bottom': {
+          '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+          '100%': { transform: 'translate(-100%, 0%)', opacity: '1' },
+        },
+        'star-movement-top': {
+          '0%': { transform: 'translate(0%, 0%)', opacity: '1' },
+          '100%': { transform: 'translate(100%, 0%)', opacity: '1' },
         },
       },
     },

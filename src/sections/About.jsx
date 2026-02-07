@@ -2,11 +2,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
 import { MdEmail, MdVerified } from "react-icons/md";
-import ProfileCard from "./ProfileCard";
-import TiltedCard from "./TiltedCard";
-import ScrollReveal from "./ScrollReveal";
-import profileImg from "../assets/ProfileCard.JPG";
-import cvFile from "../assets/CV_Wahyudi Alfurqon.pdf";
+import ProfileCard from "../components/ui/ProfileCard";
+import TiltedCard from "../components/ui/TiltedCard";
+import ScrollReveal from "../components/effects/ScrollReveal";
+import profileImg from "../assets/images/ProfileCard.JPG";
+import cvFile from "../assets/pdf/CV_Wahyudi Alfurqon.pdf";
+
+import StarBorder from "../components/effects/StarBorder";
 
 const About = () => {
   const [isMobile, setIsMobile] = React.useState(false);
@@ -23,17 +25,23 @@ const About = () => {
 
   return (
     <section id="about" className="py-20 px-4 max-w-7xl mx-auto">
-        <motion.div 
+        <StarBorder
+            as={motion.div}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="rounded-[3rem] bg-dark/50 border border-white/10 p-8 md:p-12 overflow-hidden relative backdrop-blur-sm"
+            className="w-full p-0 bg-transparent rounded-[3rem]" // Resetting some StarBorder defaults if needed, but passing className adds to the wrapper
+            color="#0ea5e9"
+            speed="8s"
+            thickness={4}
         >
-            {/* Background Glow */}
+            {/* Background Glow - Needs to be inside or outside? Original was inside motion.div but absolute. 
+                StarBorder has relative and overflow-hidden, so absolute children will be relative to it.
+            */}
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-primary/20 blur-[120px] rounded-full -z-10" />
 
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="grid md:grid-cols-2 gap-12 items-center p-8 md:p-12"> 
                 
                     <div className="flex justify-center w-full max-w-[500px] mx-auto">
                         <div className="relative w-full h-full flex justify-center">
@@ -43,7 +51,13 @@ const About = () => {
                             <TiltedCard
                                 imageSrc={profileImg}
                                 altText="Wahyudi Alfurqon - IT & Designer"
-                                captionText="A.K.A W4YOU"
+                                captionText={
+                                    <>
+                                        'Allow Yourself to Shine
+                                        <br />
+                                        Without the Desire to be Seen'
+                                    </>
+                                }
                                 containerHeight={isMobile ? "400px" : "550px"}
                                 containerWidth={isMobile ? "300px" : "400px"}
                                 imageHeight={isMobile ? "400px" : "550px"}
@@ -54,7 +68,7 @@ const About = () => {
                                 showTooltip={true}
                                 displayOverlayContent={true}
                                 overlayContent={
-                                    <div className="w-full h-full flex flex-col justify-end p-6">
+                                    <div className="w-full h-full flex flex-col justify-end p-6 text-left">
                                         <div className="backdrop-blur-xl bg-gradient-to-br from-white/20 to-white/5 border border-white/20 p-4 rounded-2xl shadow-2xl">
                                             <h3 className="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
                                                 Wahyudi Alfurqon 
@@ -69,7 +83,7 @@ const About = () => {
                     </div>
 
                 {/* Text Section */}
-                <div>
+                <div className="text-left"> {/* Reset text alignment because StarBorder enforces text-center */}
                     <ScrollReveal 
                         as="h2" 
                         textClassName="text-4xl md:text-5xl font-bold mb-6 text-white" 
@@ -130,7 +144,7 @@ const About = () => {
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </StarBorder>
     </section>
   );
 };

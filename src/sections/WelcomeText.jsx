@@ -1,5 +1,5 @@
 import React from 'react';
-import ScrollReveal from './ScrollReveal';
+import ScrollReveal from '../components/effects/ScrollReveal';
 
 const WelcomeText = () => {
     return (
