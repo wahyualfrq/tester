@@ -126,10 +126,8 @@ const ScrollReveal = ({
   const Tag = as; 
 
   return (
-    <Tag ref={containerRef} className={`my-5 ${containerClassName}`}>
-      <span className={`${textClassName}`}>
-          {splitText}
-      </span>
+    <Tag ref={containerRef} className={`my-5 ${containerClassName} ${textClassName}`}>
+      {splitText}
     </Tag>
   );
 };

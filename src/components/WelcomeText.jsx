@@ -10,7 +10,7 @@ const WelcomeText = () => {
                     enableBlur
                     baseRotation={3}
                     blurStrength={4}
-                    textClassName="text-[5vw] md:text-[7vw] font-bold text-white text-center leading-tight tracking-tighter select-none font-display"
+                    textClassName="text-[11vw] md:text-[7vw] font-bold text-white text-center leading-tight tracking-tighter select-none font-display"
                     containerClassName="my-0 max-w-full"
                     rotationEnd="center center"
                     wordAnimationEnd="center center"

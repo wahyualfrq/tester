@@ -1,13 +1,26 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FaInstagram, FaLinkedin } from "react-icons/fa";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdVerified } from "react-icons/md";
 import ProfileCard from "./ProfileCard";
+import TiltedCard from "./TiltedCard";
 import ScrollReveal from "./ScrollReveal";
 import profileImg from "../assets/ProfileCard.JPG";
 import cvFile from "../assets/CV_Wahyudi Alfurqon.pdf";
 
 const About = () => {
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <section id="about" className="py-20 px-4 max-w-7xl mx-auto">
         <motion.div 
@@ -23,22 +36,36 @@ const About = () => {
             <div className="grid md:grid-cols-2 gap-12 items-center">
                 
                     <div className="flex justify-center w-full max-w-[500px] mx-auto">
-                        <ProfileCard
-                            name="Wahyudi Alfurqon"
-                            title="IT & Designer"
-                            nameFontSize="2rem"
-                            handle="Wahyu"
-                            status="Online"
-                            contactText="Contact Me"
-                            avatarUrl={profileImg}
-                            showUserInfo={false}
-                            enableTilt={true}
-                            enableMobileTilt={false}
-                            onContactClick={() => console.log('Contact clicked')}
-                            behindGlowEnabled={true}
-                            behindGlowColor="rgba(255, 255, 255, 0.4)"
-                            innerGradient="linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%)"
-                        />
+                        <div className="relative w-full h-full flex justify-center">
+                            {/* Background Glow */}
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] bg-white/20 blur-[60px] rounded-full -z-10" />
+                            
+                            <TiltedCard
+                                imageSrc={profileImg}
+                                altText="Wahyudi Alfurqon - IT & Designer"
+                                captionText="A.K.A W4YOU"
+                                containerHeight={isMobile ? "400px" : "550px"}
+                                containerWidth={isMobile ? "300px" : "400px"}
+                                imageHeight={isMobile ? "400px" : "550px"}
+                                imageWidth={isMobile ? "300px" : "400px"}
+                                rotateAmplitude={12}
+                                scaleOnHover={1.05}
+                                showMobileWarning={false}
+                                showTooltip={true}
+                                displayOverlayContent={true}
+                                overlayContent={
+                                    <div className="w-full h-full flex flex-col justify-end p-6">
+                                        <div className="backdrop-blur-xl bg-gradient-to-br from-white/20 to-white/5 border border-white/20 p-4 rounded-2xl shadow-2xl">
+                                            <h3 className="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+                                                Wahyudi Alfurqon 
+                                                <MdVerified className="text-blue-500" />
+                                            </h3>
+                                            <p className="text-sm text-gray-700 font-medium">IT & Designer</p>
+                                        </div>
+                                    </div>
+                                }
+                            />
+                        </div>
                     </div>
 
                 {/* Text Section */}

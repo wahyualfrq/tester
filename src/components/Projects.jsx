@@ -62,11 +62,33 @@ const projects = [
 
 const Projects = () => {
   const [activeCategory, setActiveCategory] = useState("All");
+  const [isMobile, setIsMobile] = useState(false);
 
-  const filteredProjects =
-    activeCategory === "All"
-      ? projects
-      : projects.filter((project) => project.category === activeCategory);
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const getFilteredProjects = () => {
+    if (activeCategory !== "All") {
+      return projects.filter((project) => project.category === activeCategory);
+    }
+
+    if (isMobile) {
+      // Pick one from each requested category
+      const software = projects.find(p => p.category === "Software Development");
+      const uiux = projects.find(p => p.category === "UI/UX");
+      const graphic = projects.find(p => p.category === "Graphic Designer");
+      
+      return [software, uiux, graphic].filter(Boolean);
+    }
+
+    return projects;
+  };
+
+  const filteredProjects = getFilteredProjects();
 
   return (
     <section id="projects" className="py-20 px-4 max-w-7xl mx-auto">
@@ -75,10 +97,27 @@ const Projects = () => {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
-        className="mb-12 text-center"
+        className="mb-16"
       >
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">My Projects</h2>
-        <p className="text-gray-400 mb-8">Recent work and experiments</p>
+        <div className="flex flex-col md:flex-row items-center md:items-center gap-8 md:gap-0 mb-12">
+          {/* Left Side: Heading */}
+          <div className="flex-1 text-center md:text-right md:pr-20 lg:pr-32">
+            <h2 className="text-5xl md:text-7xl font-bold tracking-tight flex flex-row md:justify-end items-baseline gap-3">
+              <span className="font-sans text-white/30 uppercase text-3xl md:text-5xl">My</span>
+              <span className="font-display text-white">Projects</span>
+            </h2>
+          </div>
+
+          {/* Vertical Line Separator */}
+          <div className="hidden md:block w-[1px] h-24 bg-white/10" />
+
+          {/* Right Side: Description */}
+          <div className="flex-1 text-center md:text-right md:pl-20 lg:pl-32">
+            <p className="text-gray-400 text-[11px] md:text-xs leading-relaxed md:leading-normal max-w-[280px] md:max-w-[320px] mx-auto md:ml-0 md:mr-0 text-center md:text-right font-light">
+              Koleksi ini menampilkan fase terbaru perjalanan saya. Setiap proyek menunjukkan keterampilan inti, proses berpikir, dan visi desain yang saya bangun. Proyek-proyek ini menjadi langkah nyata.
+            </p>
+          </div>
+        </div>
 
         {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-4">

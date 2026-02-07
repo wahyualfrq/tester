@@ -11,7 +11,9 @@ export default {
       fontFamily: {
         sans: ["Outfit", "sans-serif"],
         display: ["Syne", "sans-serif"],
-        pixel: ['"Press Start 2P"', 'cursive'],
+        pixel: ['"Press Start 2P"', "cursive"],
+        script: ["'Great Vibes'", "cursive"],
+        serif: ["'Playfair Display'", "serif"],
       },
       animation: {
         "fade-in": "fadeIn 1s ease-out forwards",
