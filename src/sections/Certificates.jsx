@@ -12,6 +12,7 @@ const CertificateCardContent = ({ cert, isMobileGrid = false }) => (
             <img 
                 src={cert.image} 
                 alt={cert.title} 
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             />
             <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent ${isMobileGrid ? 'opacity-90' : 'opacity-80'}`} />
@@ -53,27 +54,27 @@ const Certificates = () => {
   }, []);
 
   return (
-    <section id="certificates" className="min-h-screen bg-black relative pb-20">
+    <section id="certificates" className="min-h-screen bg-white dark:bg-black relative pb-20 transition-colors duration-300">
        <div className="container mx-auto px-4 py-20 text-center">
             <ScrollReveal
                 as="h2"
                 baseOpacity={0}
                 enableBlur
-                baseRotation={5}
-                blurStrength={4}
-                textClassName="text-4xl md:text-6xl font-bold text-white mb-10 block"
+                baseRotation={0}
+                blurStrength={10}
+                textClassName="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-10 block"
                 containerClassName="my-0 w-full flex justify-center"
                 animationMode="blur-in"
             >
                 Certifications
             </ScrollReveal>
             <ScrollReveal
-                as="p"
+                as="div"
                 baseOpacity={0.1}
                 enableBlur
-                baseRotation={2}
-                blurStrength={2}
-                textClassName="text-gray-400 mb-16 max-w-2xl mx-auto text-base md:text-lg leading-relaxed text-center"
+                baseRotation={0}
+                blurStrength={4}
+                textClassName="text-slate-600 dark:text-gray-400 mb-16 max-w-2xl mx-auto text-base md:text-lg leading-relaxed text-center flex flex-wrap justify-center gap-1"
                 containerClassName="my-0 w-full"
                 animationMode="blur-in"
             >
@@ -108,7 +109,7 @@ const Certificates = () => {
         <div className="flex justify-center mt-0 relative z-20">
             <Link 
                 to="/certificates" 
-                className="group px-6 py-3 md:px-8 md:py-3 rounded-full bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 hover:scale-105 transition-all duration-300 flex items-center gap-2 text-sm md:text-base"
+                className="group px-6 py-3 md:px-8 md:py-3 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white font-medium hover:bg-slate-200 dark:hover:bg-white/10 hover:scale-105 transition-all duration-300 flex items-center gap-2 text-sm md:text-base"
             >
                 Lihat Semua
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover:translate-x-1 transition-transform">

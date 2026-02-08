@@ -5,7 +5,7 @@ import ShinyText from "../components/effects/ShinyText";
 
 const Hero = () => {
     return (
-        <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-black">
+        <section id="home" className="relative h-screen w-full flex items-center justify-center overflow-hidden bg-slate-50 dark:bg-black transition-colors duration-300">
             {/* Background */}
             <div className="absolute inset-0 z-0 opacity-50">
                 <Aurora
@@ -24,7 +24,7 @@ const Hero = () => {
                         initial={{ opacity: 0, scale: 0.9 }}
                          animate={{ opacity: 1, scale: 1 }}
                          transition={{ duration: 1, ease: "easeOut" }}
-                        className="text-[15vw] md:text-[18vw] font-bold text-white/5 tracking-tighter leading-none select-none"
+                        className="text-[15vw] md:text-[18vw] font-bold text-slate-200 dark:text-white/5 tracking-tighter leading-none select-none"
                     >
                         Portofolioo.
                     </motion.h1>
@@ -36,8 +36,8 @@ const Hero = () => {
                             disabled={false}
                             speed={3}
                             className="text-[8vw] md:text-[10vw] font-bold text-center leading-tight tracking-tighter select-none"
-                            color="#b5b5b5"
-                            shineColor="#ffffff"
+                            color="var(--shiny-text)"
+                            shineColor="var(--shiny-shine)"
                         />
                      </div>
                 </div>
@@ -52,11 +52,11 @@ const Hero = () => {
                         transition={{ delay: 2, duration: 1 }}
                         className="flex flex-col items-center gap-2"
                     >
-                        <span className="text-[10px] md:text-xs font-mono text-white/50 uppercase text-center tracking-normal">Scroll</span>
+                        <span className="text-[10px] md:text-xs font-mono text-slate-400 dark:text-white/50 uppercase text-center tracking-normal">Scroll</span>
                         <motion.div 
                             animate={{ y: [0, 8, 0] }}
                             transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                            className="w-[1px] h-8 md:h-12 bg-gradient-to-b from-white to-transparent"
+                            className="w-[1px] h-8 md:h-12 bg-gradient-to-b from-slate-900 via-slate-400 to-transparent dark:from-white dark:to-transparent"
                         />
                     </motion.div>
                 </div>

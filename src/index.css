@@ -1,15 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&family=Press+Start+2P&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Syne:wght@400;500;600;700;800&family=Press+Start+2P&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --shiny-text: #334155;
+    --shiny-shine: #000000;
+    --particle-color: #000000;
+    --gooey-text-inactive: #475569;
+    --gooey-text-active: #ffffff;
+    --gooey-pill: #0f172a;
+    --gooey-text-shadow: none;
+  }
+  .dark {
+    --shiny-text: #b5b5b5;
+    --shiny-shine: #ffffff;
+    --particle-color: #ffffff;
+    --gooey-text-inactive: #ffffff;
+    --gooey-text-active: #000000;
+    --gooey-pill: #ffffff;
+    --gooey-text-shadow: 0 1px 1px hsl(205deg 30% 10% / 0.2);
+  }
   html {
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-dark text-white font-sans antialiased;
+    @apply bg-slate-50 text-slate-900 font-sans antialiased transition-colors duration-300;
+    @apply dark:bg-dark dark:text-white;
     overflow-x: hidden;
   }
 }

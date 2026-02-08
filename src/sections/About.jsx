@@ -41,7 +41,7 @@ const About = () => {
             */}
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-primary/20 blur-[120px] rounded-full -z-10" />
 
-            <div className="grid md:grid-cols-2 gap-12 items-center p-8 md:p-12"> 
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center p-4 md:p-12"> 
                 
                     <div className="flex justify-center w-full max-w-[500px] mx-auto">
                         <div className="relative w-full h-full flex justify-center">
@@ -59,9 +59,9 @@ const About = () => {
                                     </>
                                 }
                                 containerHeight={isMobile ? "400px" : "550px"}
-                                containerWidth={isMobile ? "300px" : "400px"}
+                                containerWidth={isMobile ? "100%" : "400px"}
                                 imageHeight={isMobile ? "400px" : "550px"}
-                                imageWidth={isMobile ? "300px" : "400px"}
+                                imageWidth={isMobile ? "100%" : "400px"}
                                 rotateAmplitude={12}
                                 scaleOnHover={1.05}
                                 showMobileWarning={false}
@@ -86,7 +86,7 @@ const About = () => {
                 <div className="text-left"> {/* Reset text alignment because StarBorder enforces text-center */}
                     <ScrollReveal 
                         as="h2" 
-                        textClassName="text-4xl md:text-5xl font-bold mb-6 text-white" 
+                        textClassName="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white" 
                         baseOpacity={0.1}
                         enableBlur
                         baseRotation={3}
@@ -97,7 +97,7 @@ const About = () => {
 
                     <ScrollReveal 
                         as="p" 
-                        textClassName="text-gray-400 leading-relaxed mb-8 text-justify"
+                        textClassName="text-slate-600 dark:text-gray-400 leading-relaxed mb-8 text-justify"
                         baseOpacity={0.1}
                         enableBlur
                         baseRotation={3}
@@ -118,7 +118,7 @@ const About = () => {
                             download="CV_Wahyudi Alfurqon.pdf"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-white text-dark font-bold px-8 py-3 rounded-full hover:bg-gray-100 transition-colors inline-block text-center cursor-pointer"
+                            className="bg-slate-900 text-white dark:bg-white dark:text-dark font-bold px-8 py-3 rounded-full hover:bg-slate-800 dark:hover:bg-gray-100 transition-colors inline-block text-center cursor-pointer"
                         >
                             Download CV
                         </motion.a>
@@ -134,8 +134,8 @@ const About = () => {
                                     href={link}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    whileHover={{ y: -5, color: "#fff" }}
-                                    className="p-3 bg-white/5 rounded-full text-gray-400 hover:bg-white/10 transition-colors border border-white/5"
+                                    whileHover={{ y: -5 }}
+                                    className="p-3 bg-slate-100 dark:bg-white/5 rounded-full text-slate-500 dark:text-gray-400 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white transition-colors border border-slate-200 dark:border-white/5"
                                 >
                                     <Icon size={20} />
                                 </motion.a>

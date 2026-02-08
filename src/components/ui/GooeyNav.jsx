@@ -143,11 +143,11 @@ const GooeyNav = ({
             z-index: 1;
           }
           .effect.text {
-            color: white;
+            color: var(--gooey-text-inactive);
             transition: color 0.3s ease;
           }
           .effect.text.active {
-            color: black;
+            color: var(--gooey-text-active);
           }
           .effect.filter {
             filter: blur(8px) contrast(20);
@@ -157,7 +157,7 @@ const GooeyNav = ({
             content: "";
             position: absolute;
             inset: 0;
-            background: white;
+            background: var(--gooey-pill);
             transform: scale(0);
             opacity: 0;
             z-index: -1;
@@ -240,7 +240,7 @@ const GooeyNav = ({
             }
           }
           li.active {
-            color: black!important;
+            color: var(--gooey-text-active)!important;
             text-shadow: none!important;
           }
           li.active::after {
@@ -252,7 +252,7 @@ const GooeyNav = ({
             position: absolute;
             inset: 0;
             border-radius: 9999px;
-            background: white;
+            background: var(--gooey-pill);
             opacity: 0;
             transform: scale(0);
             transition: all 0.3s ease;
@@ -266,14 +266,14 @@ const GooeyNav = ({
             ref={navRef}
             className="flex gap-2 md:gap-4 list-none p-0 m-0 relative z-[3]"
             style={{
-              color: 'white',
-              textShadow: '0 1px 1px hsl(205deg 30% 10% / 0.2)'
+              color: 'var(--gooey-text-inactive)',
+              textShadow: 'var(--gooey-text-shadow)'
             }}
           >
             {items.map((item, index) => (
               <li
                 key={index}
-                className={`rounded-full relative cursor-pointer transition-[background-color_color_box-shadow] duration-300 ease shadow-[0_0_0.5px_1.5px_transparent] text-white ${
+                className={`rounded-full relative cursor-pointer transition-[background-color_color_box-shadow] duration-300 ease shadow-[0_0_0.5px_1.5px_transparent] ${
                   activeIndex === index ? 'active' : ''
                 }`}
               >

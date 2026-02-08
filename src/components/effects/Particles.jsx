@@ -244,7 +244,8 @@ const Particles = ({
     sizeRandomness,
     cameraDistance,
     disableRotation,
-    pixelRatio
+    pixelRatio,
+    particleColors
   ]);
 
   return <div ref={containerRef} className={`relative w-full h-full ${className}`} />;

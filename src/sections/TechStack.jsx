@@ -15,6 +15,21 @@ const TechStack = () => {
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
+    const [theme, setTheme] = React.useState('dark');
+
+    React.useEffect(() => {
+        const checkTheme = () => {
+            const isDark = document.documentElement.classList.contains('dark');
+            setTheme(isDark ? 'dark' : 'light');
+        };
+        checkTheme();
+
+        const observer = new MutationObserver(checkTheme);
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+
+        return () => observer.disconnect();
+    }, []);
+
     const radii = [120, 210, 300];
 
     // Icons configuration: [IconComponent, orbitRadius, speed, initialAngle, color]
@@ -38,11 +53,11 @@ const TechStack = () => {
     ];
 
     return (
-        <section className="py-20 overflow-hidden relative min-h-[800px] flex items-center justify-center bg-black">
+        <section className="py-20 overflow-hidden relative min-h-[800px] flex items-center justify-center bg-slate-50 dark:bg-black transition-colors duration-300">
             {/* Particles Background */}
-            <div className="absolute inset-0 z-0 text-white">
+            <div className="absolute inset-0 z-0 text-slate-900 dark:text-white">
                  <Particles
-                    particleColors={["#ffffff"]}
+                    particleColors={[theme === 'dark' ? "#ffffff" : "#000000"]}
                     particleCount={50}
                     particleSpread={10}
                     speed={0.1}
@@ -63,7 +78,7 @@ const TechStack = () => {
                         enableBlur
                         baseRotation={5}
                         blurStrength={4}
-                        textClassName="text-3xl font-bold text-white text-center mb-10 drop-shadow-md"
+                        textClassName="text-3xl font-bold text-slate-900 dark:text-white text-center mb-10 drop-shadow-md"
                         containerClassName="my-0 w-full flex justify-center"
                         animationMode="blur-in"
                     >
@@ -78,12 +93,12 @@ const TechStack = () => {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 viewport={{ once: true }}
-                                className="bg-white/5 border border-white/10 p-4 rounded-xl flex flex-col items-center justify-center gap-3 hover:bg-white/10 transition-colors"
+                                className="bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 p-4 rounded-xl flex flex-col items-center justify-center gap-3 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors"
                             >
-                                <div className="p-3 bg-gray-900 rounded-full border border-white/10 shadow-lg">
+                                <div className="p-3 bg-white dark:bg-gray-900 rounded-full border border-slate-200 dark:border-white/10 shadow-lg">
                                     <skill.icon size={32} color={skill.color} />
                                 </div>
-                                <span className="text-white font-medium text-sm">{skill.name}</span>
+                                <span className="text-slate-900 dark:text-white font-medium text-sm">{skill.name}</span>
                             </motion.div>
                         ))}
                     </div>
@@ -100,7 +115,7 @@ const TechStack = () => {
                     {radii.map((radius, i) => (
                         <div 
                             key={i}
-                            className="absolute rounded-full border border-white/10"
+                            className="absolute rounded-full border border-slate-300 dark:border-white/10"
                             style={{ width: radius * 2, height: radius * 2 }}
                         />
                     ))}
@@ -145,8 +160,8 @@ const OrbitingIcon = ({ Icon, radius, speed, initialAngle, color }) => {
                     animate={{ rotate: -360 }}
                     transition={{ duration: speed, repeat: Infinity, ease: "linear" }}
                  >
-                     <div className="p-3 bg-gray-900 border border-white/10 rounded-full shadow-lg relative group">
-                        <div className="absolute inset-0 bg-white/5 rounded-full blur-sm group-hover:bg-white/20 transition-colors" />
+                     <div className="p-3 bg-white dark:bg-gray-900 border border-slate-200 dark:border-white/10 rounded-full shadow-lg relative group">
+                        <div className="absolute inset-0 bg-slate-400/20 dark:bg-white/5 rounded-full blur-sm group-hover:bg-slate-400/30 dark:group-hover:bg-white/20 transition-colors" />
                         <Icon size={24} color={color} className="relative z-10" />
                      </div>
                  </motion.div>

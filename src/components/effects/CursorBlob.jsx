@@ -22,9 +22,10 @@ const CursorBlob = () => {
     return (
         <motion.div
             style={{ x, y }}
-            className="fixed top-0 left-0 w-[200px] h-[200px] rounded-full bg-gradient-to-r from-primary/30 to-secondary/30 blur-[100px] pointer-events-none z-0 mix-blend-screen"
+            className="hidden dark:block fixed top-0 left-0 w-[200px] h-[200px] rounded-full bg-gradient-to-r from-primary/60 to-secondary/60 blur-[100px] pointer-events-none z-0 mix-blend-screen"
         />
     );
 };
 
 export default CursorBlob;
+

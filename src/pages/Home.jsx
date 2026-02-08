@@ -6,6 +6,7 @@ import ScrollingSkills from '../components/ui/ScrollingSkills';
 import About from '../sections/About';
 import TechStack from '../sections/TechStack';
 import ExperienceStats from '../sections/ExperienceStats';
+import Experience from '../sections/Experience';
 import Projects from '../sections/Projects';
 import Certificates from '../sections/Certificates';
 import Contact from '../sections/Contact';
@@ -30,7 +31,7 @@ const Home = () => {
   }, [location]);
 
   return (
-    <div className="bg-dark min-h-screen text-white selection:bg-primary selection:text-white relative">
+    <div className="bg-white dark:bg-dark min-h-screen text-slate-900 dark:text-white selection:bg-primary selection:text-white relative transition-colors duration-300">
       <CursorBlob />
       <Navbar />
       <Hero />
@@ -40,6 +41,7 @@ const Home = () => {
       <TechStack />
       <ExperienceStats />
       <Projects />
+      <Experience />
       <Certificates />
       <Contact />
       <Footer />

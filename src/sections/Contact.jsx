@@ -46,7 +46,7 @@ const Contact = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: false }}
-            className="grid md:grid-cols-2 gap-12 bg-dark/30 p-10 rounded-3xl border border-white/5 backdrop-blur-sm"
+            className="grid md:grid-cols-2 gap-12 bg-white/50 dark:bg-dark/30 p-10 rounded-3xl border border-slate-200 dark:border-white/5 backdrop-blur-sm transition-colors duration-300 shadow-sm dark:shadow-none"
         >
             <motion.div
                 initial={{ opacity: 0, x: -50 }}
@@ -57,14 +57,14 @@ const Contact = () => {
                 <h2 className="text-4xl font-bold mb-6">
                     Let's Work Together
                 </h2>
-                <p className="text-gray-400 mb-8 leading-relaxed">
+                <p className="text-slate-600 dark:text-gray-400 mb-8 leading-relaxed">
                     Jika Anda memiliki proyek atau ingin berdiskusi terkait kerja sama, silakan hubungi saya. 
                     Saya terbuka untuk proyek freelance maupun posisi full time.
                 </p>
 
                 <div className="space-y-4">
-                    <div className="flex items-center gap-4 text-gray-300">
-                        <div className="p-3 bg-white/5 rounded-full"><MdEmail className="text-primary" size={24} /></div>
+                    <div className="flex items-center gap-4 text-slate-700 dark:text-gray-300">
+                        <div className="p-3 bg-slate-100 dark:bg-white/5 rounded-full"><MdEmail className="text-primary" size={24} /></div>
                         <span>wahyudialfurqon109@gmail.com</span>
                     </div>
                 </div>
@@ -87,7 +87,7 @@ const Contact = () => {
                         onChange={handleChange}
                         placeholder="Name" 
                         required
-                        className="bg-dark/50 border border-white/10 rounded-xl p-4 focus:border-primary outline-none transition-colors" 
+                        className="bg-slate-100 dark:bg-dark/50 border border-slate-300 dark:border-white/10 rounded-xl p-4 focus:border-primary outline-none transition-colors text-slate-900 dark:text-white" 
                     />
                     <input 
                         type="email" 
@@ -96,7 +96,7 @@ const Contact = () => {
                         onChange={handleChange}
                         placeholder="Email" 
                         required
-                        className="bg-dark/50 border border-white/10 rounded-xl p-4 focus:border-primary outline-none transition-colors" 
+                        className="bg-slate-100 dark:bg-dark/50 border border-slate-300 dark:border-white/10 rounded-xl p-4 focus:border-primary outline-none transition-colors text-slate-900 dark:text-white" 
                     />
                 </div>
                 <input 
@@ -106,7 +106,7 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="Subject" 
                     required
-                    className="w-full bg-dark/50 border border-white/10 rounded-xl p-4 focus:border-primary outline-none transition-colors" 
+                    className="w-full bg-slate-100 dark:bg-dark/50 border border-slate-300 dark:border-white/10 rounded-xl p-4 focus:border-primary outline-none transition-colors text-slate-900 dark:text-white"  
                 />
                 <textarea 
                     rows="4" 
@@ -115,7 +115,7 @@ const Contact = () => {
                     onChange={handleChange}
                     placeholder="Message" 
                     required
-                    className="w-full bg-dark/50 border border-white/10 rounded-xl p-4 focus:border-primary outline-none transition-colors"
+                    className="w-full bg-slate-100 dark:bg-dark/50 border border-slate-300 dark:border-white/10 rounded-xl p-4 focus:border-primary outline-none transition-colors text-slate-900 dark:text-white"
                 ></textarea>
                 <button 
                     type="submit"
