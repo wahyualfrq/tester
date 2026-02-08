@@ -1,24 +1,30 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, memo } from "react";
 import { Link } from "react-router-dom";
 import ScrollStack, { ScrollStackItem } from "../components/effects/ScrollStack";
 import ScrollReveal from "../components/effects/ScrollReveal";
 import { motion } from "framer-motion";
-import { certificates } from "../data/certificates";
+import { useQuery } from "@tanstack/react-query";
+import { fetchCertificates } from "../api";
+import { optimizeImage } from "../utils/cloudinary";
+import { CertificateSkeleton } from "../components/ui/Skeleton";
 
-const CertificateCardContent = ({ cert, isMobileGrid = false }) => (
-    <div className={`bg-dark/90 border border-white/10 overflow-hidden w-full relative group h-full ${isMobileGrid ? 'aspect-[3/4] rounded-2xl' : 'aspect-[16/9] md:aspect-[2/1] rounded-[2rem] md:rounded-[3rem]'}`}>
-        {/* Image Background */}
+const CertificateCard = memo(({ cert, isMobileGrid = false }) => (
+    <a 
+        href={cert.credential_url || "#"} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className={`bg-dark/90 border border-white/10 overflow-hidden w-full relative group h-full block ${isMobileGrid ? 'aspect-[3/4] rounded-2xl' : 'aspect-[16/9] md:aspect-[2/1] rounded-[2rem] md:rounded-[3rem]'}`}
+    >
         <div className="absolute inset-0">
             <img 
-                src={cert.image} 
+                src={optimizeImage(cert.image, { width: 1200, height: 800 })} 
                 alt={cert.title} 
                 loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
             />
             <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent ${isMobileGrid ? 'opacity-90' : 'opacity-80'}`} />
         </div>
 
-        {/* Content Overlay */}
         <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -27,7 +33,7 @@ const CertificateCardContent = ({ cert, isMobileGrid = false }) => (
         >
             <div className={`transform transition-transform duration-500 ${isMobileGrid ? 'translate-y-0' : 'translate-y-4 group-hover:translate-y-0'}`}>
                 <span className={`inline-block rounded-full bg-white/20 backdrop-blur-md border border-white/10 text-white ${isMobileGrid ? 'px-2 py-0.5 text-[9px] mb-1.5' : 'px-3 py-1 text-xs mb-3 md:mb-4'}`}>
-                    {cert.date}
+                    {cert.display_date || cert.date}
                 </span>
                 
                 <h3 className={`font-bold text-white font-display leading-tight ${isMobileGrid ? 'text-[11px] mb-1 line-clamp-3' : 'text-xl md:text-4xl mb-2 line-clamp-2 md:line-clamp-none'}`}>
@@ -37,13 +43,19 @@ const CertificateCardContent = ({ cert, isMobileGrid = false }) => (
                 <p className={`text-primary font-medium ${isMobileGrid ? 'text-[9px] line-clamp-1' : 'text-base md:text-lg'}`}>
                     {cert.institution}
                 </p>
+
+                {!isMobileGrid && (
+                    <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-2 text-white/60 text-sm">
+                        <span>View Credential</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </div>
+                )}
             </div>
         </motion.div>
-    </div>
-);
+    </a>
+));
 
 const Certificates = () => {
-  const displayedCertificates = certificates.slice(0, 4);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -52,6 +64,13 @@ const Certificates = () => {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  const { data: certificates = [], isLoading } = useQuery({
+    queryKey: ['certificates'],
+    queryFn: fetchCertificates,
+  });
+
+  const displayedCertificates = certificates.slice(0, 4);
 
   return (
     <section id="certificates" className="min-h-screen bg-white dark:bg-black relative pb-20 transition-colors duration-300">
@@ -82,7 +101,13 @@ const Certificates = () => {
             </ScrollReveal>
        </div>
 
-      {isMobile ? (
+      {isLoading && certificates.length === 0 ? (
+        <div className="container mx-auto px-4 grid grid-cols-2 lg:grid-cols-4 gap-4 py-10">
+          {[...Array(4)].map((_, i) => (
+            <CertificateSkeleton key={i} />
+          ))}
+        </div>
+      ) : isMobile ? (
         <div className="container mx-auto px-4 grid grid-cols-2 gap-4 pb-10">
             {displayedCertificates.map((cert, index) => (
                 <motion.div
@@ -92,15 +117,15 @@ const Certificates = () => {
                     transition={{ delay: index * 0.1 }}
                     className="w-full"
                 >
-                    <CertificateCardContent cert={cert} isMobileGrid={true} />
+                    <CertificateCard cert={cert} isMobileGrid={true} />
                 </motion.div>
             ))}
         </div>
       ) : (
         <ScrollStack className="w-full pb-10">
             {displayedCertificates.map((cert) => (
-            <ScrollStackItem key={cert.id} itemClassName="rounded-[3rem]"> {/* itemClassName applies to wrapper, content styling is in CardContent */}
-                <CertificateCardContent cert={cert} />
+            <ScrollStackItem key={cert.id} itemClassName="rounded-[3rem]">
+                <CertificateCard cert={cert} />
             </ScrollStackItem>
             ))}
         </ScrollStack>
