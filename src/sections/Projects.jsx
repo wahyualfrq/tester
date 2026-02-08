@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useMemo, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { categories } from "../data/projects";
-import { fetchProjects, fetchProjectDetail } from "../api";
+import { useQueryClient } from "@tanstack/react-query";
+import { projects as staticProjects } from "../data/projects";
+import { fetchProjectDetail } from "../api";
 import { optimizeImage } from "../utils/cloudinary";
-import { ProjectCardSkeleton } from "../components/ui/Skeleton";
 
 // Memoized Project Card for better performance
 const ProjectCard = memo(({ project, index }) => {
@@ -30,14 +29,20 @@ const ProjectCard = memo(({ project, index }) => {
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group bg-slate-50 dark:bg-dark/50 border border-slate-200 dark:border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-colors duration-300 shadow-sm dark:shadow-none gpu-accel"
     >
-      <div className="relative overflow-hidden h-48">
+      <div className="relative overflow-hidden aspect-video w-full h-auto">
         <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-dark to-transparent opacity-60 z-10" />
-        <img
-          src={optimizeImage(project.image, { width: 600, height: 400 })}
-          alt={project.title}
-          loading="lazy"
-          className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-        />
+        {project.image ? (
+          <img
+            src={optimizeImage(project.image, { width: 800, height: 450 })}
+            alt={project.title}
+            loading="lazy"
+            className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+          />
+        ) : (
+          <div className="w-full h-full bg-slate-200 dark:bg-white/5 flex items-center justify-center">
+            <span className="text-slate-400 dark:text-white/20 text-4xl font-bold opacity-50">IMAGE</span>
+          </div>
+        )}
         <div className="absolute bottom-4 left-4 z-20">
           <div className="flex flex-wrap gap-2">
             <span className="text-xs font-bold bg-primary/80 backdrop-blur-md px-2 py-1 rounded-md text-white border border-white/10">
@@ -75,7 +80,6 @@ const ProjectCard = memo(({ project, index }) => {
 });
 
 const Projects = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -85,24 +89,10 @@ const Projects = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // React Query for projects data
-  const { data: projects = [], isLoading } = useQuery({
-    queryKey: ['projects', activeCategory],
-    queryFn: () => fetchProjects({ category: activeCategory }),
-    placeholderData: (previousData) => previousData, // keep previous data while fetching
-  });
-
-  const filteredProjects = useMemo(() => {
-    if (isMobile && activeCategory === "All") {
-      const software = projects.find(p => p.category === "Software Development");
-      const uiux = projects.find(p => p.category === "UI/UX");
-      const graphic = projects.find(p => p.category === "Graphic Designer");
-      
-      const filtered = [software, uiux, graphic].filter(Boolean);
-      return filtered.length > 0 ? filtered : projects.slice(0, 3);
-    }
-    return activeCategory === "All" ? projects.slice(0, 6) : projects;
-  }, [projects, isMobile, activeCategory]);
+  // Use first 3 projects if mobile, 6 projects if desktop from static data
+  const projects = useMemo(() => {
+    return isMobile ? staticProjects.slice(0, 3) : staticProjects.slice(0, 6);
+  }, [isMobile]);
 
   return (
     <section id="projects" className="py-20 px-4 max-w-7xl mx-auto">
@@ -127,39 +117,15 @@ const Projects = () => {
             </p>
           </div>
         </div>
-
-        <div className="flex flex-wrap justify-center gap-4">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setActiveCategory(category)}
-              className={`px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border ${
-                activeCategory === category
-                  ? "bg-primary text-white border-primary shadow-lg shadow-primary/25 scale-105"
-                  : "bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-gray-400 border-slate-200 dark:border-white/10 hover:bg-slate-200 dark:hover:bg-white/10 hover:text-slate-900 dark:hover:text-white"
-              }`}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
       </motion.div>
 
-      {isLoading && projects.length === 0 ? (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {[...Array(3)].map((_, i) => (
-            <ProjectCardSkeleton key={i} />
+      <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <AnimatePresence mode="popLayout">
+          {projects.map((project, index) => (
+            <ProjectCard key={project.id} project={project} index={index} />
           ))}
-        </div>
-      ) : (
-        <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project, index) => (
-              <ProjectCard key={project.id} project={project} index={index} />
-            ))}
-          </AnimatePresence>
-        </motion.div>
-      )}
+        </AnimatePresence>
+      </motion.div>
 
       <div className="flex justify-center mt-12 relative z-20">
             <Link 

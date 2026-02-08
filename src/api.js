@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000/api';
+const BASE_URL = import.meta.env.DEV ? '/api/api' : (import.meta.env.VITE_API_URL || 'https://beporto.vercel.app/api/api');
 
 export const fetchProjects = async ({ category, page = 1 }) => {
   const params = new URLSearchParams();

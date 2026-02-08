@@ -33,17 +33,14 @@
   }
 }
 
-/* Custom scrollbar */
+/* Hide scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  display: none;
 }
 
-::-webkit-scrollbar-track {
-  @apply bg-slate-900;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-slate-700 rounded-full hover:bg-slate-600;
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 /* Performance and Smoothness */

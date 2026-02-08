@@ -80,14 +80,20 @@ const ProjectDetail = () => {
             <main className="pt-24 pb-20">
                 {/* Hero / Cover Section */}
                 <div className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden">
-                    <motion.img 
-                        initial={{ scale: 1.1, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.8 }}
-                        src={optimizeImage(project.cover_image || project.image, { width: 1920, height: 1080 })} 
-                        alt={project.title}
-                        className="w-full h-full object-cover"
-                    />
+                    {(project.cover_image || project.image) ? (
+                        <motion.img 
+                            initial={{ scale: 1.1, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            transition={{ duration: 0.8 }}
+                            src={optimizeImage(project.cover_image || project.image, { width: 1920, height: 1080 })} 
+                            alt={project.title}
+                            className="w-full h-full object-cover"
+                        />
+                    ) : (
+                        <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+                            <span className="text-white/20 text-6xl font-bold">NO IMAGE</span>
+                        </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-dark via-transparent to-black/20" />
                     
                     <div className="absolute bottom-0 left-0 w-full p-4 md:p-12">
@@ -149,11 +155,17 @@ const ProjectDetail = () => {
                                                 className="rounded-2xl overflow-hidden shadow-lg cursor-pointer aspect-video bg-slate-100 dark:bg-white/5"
                                                 onClick={() => setSelectedImage(img)}
                                             >
-                                                <img 
-                                                    src={optimizeImage(img, { width: 800, height: 600 })} 
-                                                    alt={`Gallery ${idx + 1}`} 
-                                                    className="w-full h-full object-cover"
-                                                />
+                                                {img ? (
+                                                    <img 
+                                                        src={optimizeImage(img, { width: 800, height: 600 })} 
+                                                        alt={`Gallery ${idx + 1}`} 
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center">
+                                                        <span className="text-slate-400 text-sm">No Image</span>
+                                                    </div>
+                                                )}
                                             </motion.div>
                                         ))}
                                     </div>

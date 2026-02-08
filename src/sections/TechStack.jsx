@@ -74,8 +74,8 @@ const TechStack = () => {
                 <div className="relative z-10 container mx-auto px-4">
                      <ScrollReveal
                         as="h3"
-                        baseOpacity={0}
-                        enableBlur
+                        baseOpacity={isMobile ? 1 : 0}
+                        enableBlur={!isMobile}
                         baseRotation={5}
                         blurStrength={4}
                         textClassName="text-3xl font-bold text-slate-900 dark:text-white text-center mb-10 drop-shadow-md"

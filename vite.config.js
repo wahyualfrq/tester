@@ -17,5 +17,14 @@ export default defineConfig({
       }
     },
     chunkSizeWarningLimit: 1000
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://beporto.vercel.app',
+        changeOrigin: true,
+        secure: false,
+      }
+    }
   }
 })

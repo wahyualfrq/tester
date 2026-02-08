@@ -1,27 +1,31 @@
-import React, { useRef, useState, useEffect, memo } from "react";
+import React, { useRef, useState, useEffect, memo, useMemo } from "react";
 import { Link } from "react-router-dom";
 import ScrollStack, { ScrollStackItem } from "../components/effects/ScrollStack";
 import ScrollReveal from "../components/effects/ScrollReveal";
 import { motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
-import { fetchCertificates } from "../api";
+import { certificates as staticCertificates } from "../data/certificates";
 import { optimizeImage } from "../utils/cloudinary";
-import { CertificateSkeleton } from "../components/ui/Skeleton";
 
 const CertificateCard = memo(({ cert, isMobileGrid = false }) => (
     <a 
         href={cert.credential_url || "#"} 
         target="_blank" 
         rel="noopener noreferrer"
-        className={`bg-dark/90 border border-white/10 overflow-hidden w-full relative group h-full block ${isMobileGrid ? 'aspect-[3/4] rounded-2xl' : 'aspect-[16/9] md:aspect-[2/1] rounded-[2rem] md:rounded-[3rem]'}`}
+        className={`bg-dark/90 border border-white/10 overflow-hidden w-full relative group h-full block ${isMobileGrid ? 'aspect-[1754/1241] rounded-none' : 'aspect-[1754/1241] rounded-none'}`}
     >
         <div className="absolute inset-0">
-            <img 
-                src={optimizeImage(cert.image, { width: 1200, height: 800 })} 
-                alt={cert.title} 
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            />
+            {cert.image ? (
+                <img 
+                    src={optimizeImage(cert.image, { width: 1200, height: 850 })} 
+                    alt={cert.title} 
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+            ) : (
+                <div className="w-full h-full bg-slate-800 flex items-center justify-center">
+                    <span className="text-white/20 text-xl font-bold">CERTIFICATE</span>
+                </div>
+            )}
             <div className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent ${isMobileGrid ? 'opacity-90' : 'opacity-80'}`} />
         </div>
 
@@ -65,23 +69,18 @@ const Certificates = () => {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const { data: certificates = [], isLoading } = useQuery({
-    queryKey: ['certificates'],
-    queryFn: fetchCertificates,
-  });
-
-  const displayedCertificates = certificates.slice(0, 4);
+  const displayedCertificates = useMemo(() => staticCertificates.slice(0, 4), []);
 
   return (
     <section id="certificates" className="min-h-screen bg-white dark:bg-black relative pb-20 transition-colors duration-300">
-       <div className="container mx-auto px-4 py-20 text-center">
+       <div className="container mx-auto px-4 pt-10 md:pt-20 pb-0 text-center">
             <ScrollReveal
                 as="h2"
-                baseOpacity={0}
-                enableBlur
+                baseOpacity={isMobile ? 1 : 0}
+                enableBlur={!isMobile}
                 baseRotation={0}
                 blurStrength={10}
-                textClassName="text-4xl md:text-6xl font-bold text-slate-900 dark:text-white mb-10 block"
+                textClassName="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4 md:mb-6 block font-display"
                 containerClassName="my-0 w-full flex justify-center"
                 animationMode="blur-in"
             >
@@ -89,11 +88,11 @@ const Certificates = () => {
             </ScrollReveal>
             <ScrollReveal
                 as="div"
-                baseOpacity={0.1}
-                enableBlur
+                baseOpacity={isMobile ? 0.8 : 0.1}
+                enableBlur={!isMobile}
                 baseRotation={0}
                 blurStrength={4}
-                textClassName="text-slate-600 dark:text-gray-400 mb-16 max-w-2xl mx-auto text-base md:text-lg leading-relaxed text-center flex flex-wrap justify-center gap-1"
+                textClassName="text-slate-600 dark:text-gray-400 mb-6 md:mb-8 max-w-2xl mx-auto text-base md:text-lg leading-relaxed text-center flex flex-wrap justify-center gap-1"
                 containerClassName="my-0 w-full"
                 animationMode="blur-in"
             >
@@ -101,13 +100,7 @@ const Certificates = () => {
             </ScrollReveal>
        </div>
 
-      {isLoading && certificates.length === 0 ? (
-        <div className="container mx-auto px-4 grid grid-cols-2 lg:grid-cols-4 gap-4 py-10">
-          {[...Array(4)].map((_, i) => (
-            <CertificateSkeleton key={i} />
-          ))}
-        </div>
-      ) : isMobile ? (
+      {isMobile ? (
         <div className="container mx-auto px-4 grid grid-cols-2 gap-4 pb-10">
             {displayedCertificates.map((cert, index) => (
                 <motion.div
@@ -124,7 +117,7 @@ const Certificates = () => {
       ) : (
         <ScrollStack className="w-full pb-10">
             {displayedCertificates.map((cert) => (
-            <ScrollStackItem key={cert.id} itemClassName="rounded-[3rem]">
+            <ScrollStackItem key={cert.id} itemClassName="rounded-none">
                 <CertificateCard cert={cert} />
             </ScrollStackItem>
             ))}

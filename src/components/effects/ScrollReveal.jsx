@@ -68,7 +68,8 @@ const ScrollReveal = ({
               scroller: scroller,
               start: triggerStart,
               end: triggerEnd,
-              scrub: true
+              scrub: true,
+              invalidateOnRefresh: true
             }
           }
         );
@@ -88,9 +89,10 @@ const ScrollReveal = ({
             scrollTrigger: {
               trigger: el,
               scroller: scroller,
-              start: isBlurOut ? triggerStart : 'top bottom-=20%', // Offset for entrance, exact for exit
+              start: isBlurOut ? triggerStart : 'top bottom-=10%', // Offset for entrance, exact for exit
               end: wordTriggerEnd,
-              scrub: true
+              scrub: true,
+              invalidateOnRefresh: true
             }
           }
         );
@@ -109,9 +111,10 @@ const ScrollReveal = ({
               scrollTrigger: {
                 trigger: el,
                 scroller: scroller,
-                start: isBlurOut ? triggerStart : 'top bottom-=20%',
+                start: isBlurOut ? triggerStart : 'top bottom-=10%',
                 end: wordTriggerEnd,
-                scrub: true
+                scrub: true,
+                invalidateOnRefresh: true
               }
             }
           );

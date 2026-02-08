@@ -16,26 +16,32 @@ const CertificateCard = memo(({ cert, index }) => (
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ delay: index * 0.1 }}
-        className="bg-slate-50 dark:bg-dark/50 border border-slate-200 dark:border-white/10 rounded-3xl overflow-hidden hover:border-primary/50 transition-colors group relative shadow-sm dark:shadow-none"
+        className="bg-slate-50 dark:bg-dark/50 border border-slate-200 dark:border-white/10 rounded-none overflow-hidden hover:border-primary/50 transition-colors group relative shadow-sm dark:shadow-none h-full flex flex-col"
     >
-        <div className="h-48 overflow-hidden relative">
-            <img 
-                src={optimizeImage(cert.image, { width: 600, height: 400 })} 
-                alt={cert.title} 
-                loading="lazy"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-            />
+        <div className="aspect-[1754/1241] overflow-hidden relative">
+            {cert.image ? (
+                <img 
+                    src={optimizeImage(cert.image, { width: 800, height: 600 })} 
+                    alt={cert.title} 
+                    loading="lazy"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+            ) : (
+                <div className="w-full h-full bg-slate-200 dark:bg-white/5 flex items-center justify-center">
+                    <span className="text-slate-400 dark:text-white/20 text-lg font-bold opacity-50">CERT</span>
+                </div>
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-dark to-transparent opacity-60" />
         </div>
         
-        <div className="p-6">
-            <span className="inline-block px-3 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-primary text-xs mb-4">
+        <div className="p-6 flex flex-col flex-1">
+            <span className="inline-block px-3 py-1 rounded-full bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-primary text-xs mb-4 self-start">
                 {cert.display_date || cert.date}
             </span>
             <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                 {cert.title}
             </h3>
-            <p className="text-slate-500 dark:text-gray-400 text-sm mb-6">
+            <p className="text-slate-500 dark:text-gray-400 text-sm mb-6 flex-1">
                 {cert.institution}
             </p>
             

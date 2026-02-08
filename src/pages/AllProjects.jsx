@@ -34,13 +34,19 @@ const ProjectCard = memo(({ project, index }) => {
             transition={{ duration: 0.3 }}
             className="group bg-slate-50 dark:bg-dark/50 border border-slate-200 dark:border-white/5 rounded-2xl overflow-hidden hover:border-primary/50 transition-colors duration-300 relative flex flex-col shadow-sm dark:shadow-none"
         >
-            <div className="relative overflow-hidden h-48">
+            <div className="relative overflow-hidden aspect-video w-full h-auto">
                 <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-dark to-transparent opacity-60 z-10" />
-                <img
-                    src={optimizeImage(project.image, { width: 600, height: 400 })}
-                    alt={project.title}
-                    className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
-                />
+                {project.image ? (
+                    <img
+                        src={optimizeImage(project.image, { width: 800, height: 450 })}
+                        alt={project.title}
+                        className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                    />
+                ) : (
+                    <div className="w-full h-full bg-slate-200 dark:bg-white/5 flex items-center justify-center">
+                        <span className="text-slate-400 dark:text-white/20 text-4xl font-bold opacity-50">IMAGE</span>
+                    </div>
+                )}
                 <div className="absolute bottom-4 left-4 z-20">
                     <div className="flex flex-wrap gap-2">
                         <span className="text-xs font-bold bg-primary/90 dark:bg-primary/80 backdrop-blur-md px-2 py-1 rounded-md text-white border border-white/10">

@@ -35,7 +35,7 @@ const ScrollStack = ({ children, className }) => {
 
 export const ScrollStackItem = ({ children, itemClassName = '' }) => {
     return (
-        <div className={`shadow-2xl rounded-[3rem] ${itemClassName} transition-transform duration-500`}>
+        <div className={`shadow-2xl rounded-none ${itemClassName} transition-transform duration-500`}>
             {children}
         </div>
     )

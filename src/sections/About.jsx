@@ -87,8 +87,8 @@ const About = () => {
                     <ScrollReveal 
                         as="h2" 
                         textClassName="text-4xl md:text-5xl font-bold mb-6 text-slate-900 dark:text-white" 
-                        baseOpacity={0.1}
-                        enableBlur
+                        baseOpacity={isMobile ? 1 : 0.1}
+                        enableBlur={!isMobile}
                         baseRotation={3}
                         blurStrength={4}
                     >
@@ -98,8 +98,8 @@ const About = () => {
                     <ScrollReveal 
                         as="p" 
                         textClassName="text-slate-600 dark:text-gray-400 leading-relaxed mb-8 text-justify"
-                        baseOpacity={0.1}
-                        enableBlur
+                        baseOpacity={isMobile ? 0.8 : 0.1}
+                        enableBlur={!isMobile}
                         baseRotation={3}
                         blurStrength={4}
                         rotationEnd="center center"
